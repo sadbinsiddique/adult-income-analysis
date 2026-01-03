@@ -1,0 +1,16 @@
+pandas
+numpy
+seaborn
+matplotlib
+scikit-learn
+xgboost
+lightgbm
+catboost
+fastapi
+jinja2
+uvicorn
+kagglehub
+imblearn
+tqdm
+joblib
+-e .
