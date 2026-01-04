@@ -1,89 +1,68 @@
-# End-to-End Adult Income Analysis
+# `End-to-End` ML Project **_Income Prediction_**
 
-[![Pandas](https://img.shields.io/badge/Pandas-150458?logo=pandas&logoColor=white)](https://pandas.pydata.org/)
-[![NumPy](https://img.shields.io/badge/NumPy-013243?logo=numpy&logoColor=white)](https://numpy.org/)
-[![Seaborn](https://img.shields.io/badge/Seaborn-4C72B0?logo=seaborn&logoColor=white)](https://seaborn.pydata.org/)
-[![Matplotlib](https://img.shields.io/badge/Matplotlib-11557C?logo=matplotlib&logoColor=white)](https://matplotlib.org/)
-[![Scikit-learn](https://img.shields.io/badge/Scikit--learn-F7931E?logo=scikitlearn&logoColor=white)](https://scikit-learn.org/)
-[![XGBoost](https://img.shields.io/badge/XGBoost-EB5E28?logo=xgboost&logoColor=white)](https://xgboost.ai/)
-[![LightGBM](https://img.shields.io/badge/LightGBM-02569B?logo=lightgbm&logoColor=white)](https://lightgbm.readthedocs.io/)
-[![CatBoost](https://img.shields.io/badge/CatBoost-FFCC00?logo=catboost&logoColor=black)](https://catboost.ai/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![Jinja2](https://img.shields.io/badge/Jinja2-B41717?logo=jinja&logoColor=white)](https://jinja.palletsprojects.com/)
-[![Uvicorn](https://img.shields.io/badge/Uvicorn-5C4EE5?logo=uvicorn&logoColor=white)](https://www.uvicorn.org/)
-[![Jupyter](https://img.shields.io/badge/Jupyter-F37626?logo=jupyter&logoColor=white)](https://jupyter.org/)
-
----
+[![Python](https://img.shields.io/badge/Python-%203.10%20%7C%203.11-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![UV](https://img.shields.io/badge/uv-0.9.21-3776AB?logo=uv&logoColor=white)](https://www.python.org/)
+[![Pandas](https://img.shields.io/badge/Pandas-2.0-150458?logo=pandas&logoColor=white)](https://pandas.pydata.org/)
+[![NumPy](https://img.shields.io/badge/NumPy-1.24-013243?logo=numpy&logoColor=white)](https://numpy.org/)
+[![Matplotlib](https://img.shields.io/badge/Matplotlib-3.7-11557C?logo=matplotlib&logoColor=white)](https://matplotlib.org/)
+[![Scikit-learn](https://img.shields.io/badge/Scikit--learn-1.3-F7931E?logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![Jinja2](https://img.shields.io/badge/Jinja2-3.1-B41717?logo=jinja&logoColor=white)](https://jinja.palletsprojects.com/)
+[![Jupyter](https://img.shields.io/badge/Jupyter-7.0-F37626?logo=jupyter&logoColor=white)](https://jupyter.org/)
 
 ## Project Overview
+
 This **end-to-end machine learning project** analyzes adult income data to predict whether an individual earns **more or less than $50K per year**.  
-The project uses **gradient boosting algorithms**, provides **comprehensive data visualizations**, and demonstrates a **production-ready API** for model predictions.
+The project uses **Support Vector Machine**, provides **comprehensive data visualizations** and demonstrates a **production-ready API** for model predictions.
 
 ---
 
-## Project Features
-- **Data Preprocessing:** Handling missing values, encoding categorical variables, feature scaling  
-- **Exploratory Data Analysis:** Visualizations, correlation analysis, feature importance  
-- **Machine Learning:** XGBoost, LightGBM, CatBoost for accurate predictions  
-- **Model Evaluation:** Accuracy, F1-score, Confusion Matrix, ROC-AUC  
-- **Backend API:** FastAPI + Uvicorn  
-- **Web Interface:** Jinja2 templating for interactive prediction  
-- **Notebook Exploration:** Jupyter Notebook for experiments
+## Project Requirements
 
----
+1) Load the dataset into your program using the Pandas library.
+2) Apply appropriate data cleaning techniques to your dataset using the Pandas library. Replace bad data using suitable methods; do not delete any records except for duplicates.
+3) Analyze the `frequency distributions` of the dataset’s features by generating plots with Matplotlib. Use the `plt.subplots()` method to display all charts within a single figure.
+4) Perform scaling on the features of the dataset. You will need to apply data conversion before scaling if required.
+5) Split your dataset into training and testing subsets using the `train_test_split()` function and set the random_state parameter to `**3327**`.
+6) Apply Support Vector Machine `SVM` Classifier to the dataset. Build `train` your prediction model in this step.
+7) Compute the confusion matrix for the SVM model. Provide an in-depth discussion in your report.
+8) Calculate and compare the training accuracy and test accuracy of your model.
+9) Evaluate an `SVM` model using a `10-fold cross-validation` strategy. Provide a detailed report on the model’s predictive accuracy and compare this result with the accuracy of the previous model trained in Task 6.
 
-## Tools & Libraries
-- [![Python](https://img.shields.io/badge/Python-3.8-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-[![UV](https://img.shields.io/badge/uv-0.9.21-3776AB?logo=uv&logoColor=white)](https://www.python.org/)
-- [![Pandas](https://img.shields.io/badge/Pandas-150458?logo=pandas&logoColor=white)](https://pandas.pydata.org/)
-	[![NumPy](https://img.shields.io/badge/NumPy-013243?logo=numpy&logoColor=white)](https://numpy.org/)
-	[![Seaborn](https://img.shields.io/badge/Seaborn-4C72B0?logo=seaborn&logoColor=white)](https://seaborn.pydata.org/)
-	[![Matplotlib](https://img.shields.io/badge/Matplotlib-11557C?logo=matplotlib&logoColor=white)](https://matplotlib.org/)
-- 
-	[![Scikit-learn](https://img.shields.io/badge/Scikit--learn-F7931E?logo=scikitlearn&logoColor=white)](https://scikit-learn.org/)
-	[![XGBoost](https://img.shields.io/badge/XGBoost-EB5E28?logo=xgboost&logoColor=white)](https://xgboost.ai/)
-	[![LightGBM](https://img.shields.io/badge/LightGBM-02569B?logo=lightgbm&logoColor=white)](https://lightgbm.readthedocs.io/)
-	[![CatBoost](https://img.shields.io/badge/CatBoost-FFCC00?logo=catboost&logoColor=black)](https://catboost.ai/)
--  [![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![Uvicorn](https://img.shields.io/badge/Uvicorn-5C4EE5?logo=python&logoColor=white)](https://www.uvicorn.org/)  
-- [![Jinja2](https://img.shields.io/badge/Jinja2-B41717?logo=jinja&logoColor=white)](https://jinja.palletsprojects.com/)
--  [![Jupyter](https://img.shields.io/badge/Jupyter-F37626?logo=jupyter&logoColor=white)](https://jupyter.org/)
-
-
-
-##  Getting Started
+## Getting Started
 
 ### 1️. Clone the Repository
-```bash
+
+```cmd
 git clone https://github.com/sadbinsiddique/adult-income-analysis.git
 ```
 
 ### 1.1 Go to the Repository
 
-```bash
+```cmd
 cd adult-income-analysis
 ```
 
-### 2. Create Virtual Eiviroment 
+### 2. Create Virtual Environment
 
-```bash
-uv venv --python=3.8
+```cmd
+uv venv --python=3.10
 ```
 
-### 2.1 Active Virtual Eiviroment 
+### 2.1 Activate Virtual Environment
 
-```bash
-venv\Scripts\activate
+```cmd
+.venv\Scripts\activate
 ```
 
 ### 2.2 Install Dependencies
 
-```bash
-uv pip install -r requirements.txt
+```cmd
+uv pip install -r requirements.txt --link-mode=copy
 ```
 
-### 4. Run Server `Backend` + `Frontend`
+### 3. Run Server `Backend` + `Frontend`
 
-```bash
+```cmd
 python app.py
 ```

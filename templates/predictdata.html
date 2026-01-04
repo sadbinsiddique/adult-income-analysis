@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predict - Income Predictor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background: #09090b;
+            --foreground: #fafafa;
+            --card: #0a0a0c;
+            --card-foreground: #fafafa;
+            --primary: #7c3aed;
+            --primary-foreground: #fafafa;
+            --secondary: #27272a;
+            --secondary-foreground: #fafafa;
+            --muted: #27272a;
+            --muted-foreground: #a1a1aa;
+            --border: #27272a;
+            --ring: #7c3aed;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: var(--background);
+            font-family: "Inter", sans-serif;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 32px;
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--foreground);
+            text-decoration: none;
+        }
+
+        .nav-brand img {
+            width: 28px;
+            height: 28px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link {
+            color: var(--muted-foreground);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--foreground);
+            background: var(--secondary);
+        }
+
+        .nav-link.active {
+            color: var(--foreground);
+            background: var(--secondary);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px 48px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--secondary);
+            border-radius: 12px;
+        }
+
+        .title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--foreground);
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--muted-foreground);
+            font-size: 0.875rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--foreground);
+        }
+
+        select,
+        input {
+            background: var(--secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 0.875rem;
+            color: var(--foreground);
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        select:focus,
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        .btn {
+            width: 100%;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            padding: 12px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #6d28d9;
+        }
+
+        .result {
+            margin-top: 24px;
+            padding: 20px;
+            background: var(--secondary);
+            border-radius: 12px;
+            text-align: center;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .result-label {
+            font-size: 0.8rem;
+            color: var(--muted-foreground);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .result-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Console Section Styles */
+        .console-section {
+            margin-top: 24px;
+        }
+
+        .console-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .console-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--foreground);
+        }
+
+        .console-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            color: var(--muted-foreground);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .console-box {
+            background: #0c0c0e;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.75rem;
+            line-height: 1.6;
+        }
+
+        .console-box::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .console-box::-webkit-scrollbar-track {
+            background: var(--secondary);
+            border-radius: 3px;
+        }
+
+        .console-box::-webkit-scrollbar-thumb {
+            background: var(--muted-foreground);
+            border-radius: 3px;
+        }
+
+        .log-line {
+            padding: 2px 0;
+            border-bottom: 1px solid rgba(39, 39, 42, 0.5);
+        }
+
+        .log-line:last-child {
+            border-bottom: none;
+        }
+
+        .log-timestamp {
+            color: #6b7280;
+        }
+
+        .log-level-info {
+            color: #3b82f6;
+            font-weight: 600;
+        }
+
+        .log-level-warning {
+            color: #f59e0b;
+            font-weight: 600;
+        }
+
+        .log-level-error {
+            color: #ef4444;
+            font-weight: 600;
+        }
+
+        .log-message {
+            color: #d1d5db;
+        }
+
+        .console-empty {
+            color: var(--muted-foreground);
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+        }
+
+        .console-file {
+            font-size: 0.7rem;
+            color: var(--muted-foreground);
+            margin-top: 8px;
+            text-align: right;
+        }
+
+        .refresh-btn {
+            background: var(--secondary);
+            border: 1px solid var(--border);
+            color: var(--muted-foreground);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .refresh-btn:hover {
+            background: var(--border);
+            color: var(--foreground);
+        }
+
+        .footer {
+            padding: 20px 32px;
+            background: var(--card);
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-text {
+            font-size: 0.8rem;
+            color: var(--muted-foreground);
+        }
+
+        .footer-text a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-text a:hover {
+            text-decoration: underline;
+        }
+
+        .copyright {
+            font-size: 0.75rem;
+            color: var(--muted-foreground);
+            opacity: 0.6;
+        }
+
+        .console-header-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 12px 16px;
+            }
+
+            .nav-link {
+                padding: 6px 10px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .navbar {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .nav-brand {
+                font-size: 1rem;
+            }
+
+            .nav-brand img {
+                width: 24px;
+                height: 24px;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .nav-link:not(.active) {
+                display: none;
+            }
+
+            .nav-link.active {
+                display: inline-block;
+            }
+
+            .main-content {
+                padding: 20px 16px;
+            }
+
+            .card {
+                padding: 28px 20px;
+            }
+
+            .title {
+                font-size: 1.5rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer {
+                padding: 16px;
+            }
+
+            .console-box {
+                max-height: 150px;
+                font-size: 0.7rem;
+            }
+
+            .console-header {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .card {
+                padding: 24px 16px;
+            }
+
+            .title {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="/" class="nav-brand">
+            <img src="https://img.icons8.com/ios-filled/50/7c3aed/artificial-intelligence.png" alt="Logo">
+            Income Predictor
+        </a>
+        <div class="nav-links">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/predictdata" class="nav-link active">Predict</a>
+            <a href="/about" class="nav-link">About</a>
+            <a href="/contact" class="nav-link">Contact</a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="card">
+            <div class="card-header">
+                <div class="icon">
+                    <img src="https://img.icons8.com/ios-filled/50/7c3aed/artificial-intelligence.png" alt="Predict"
+                        width="24" height="24">
+                </div>
+                <h1 class="title">Predict Income</h1>
+                <p class="subtitle">Enter your details to get a prediction</p>
+            </div>
+
+            <form action="/predictdata" method="POST">
+                <div class="form-grid">
+                    <!-- Row 1: Personal Info -->
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="number" name="age" id="age" placeholder="25" min="17" max="90"
+                            value="{{ form_data.age if form_data else '' }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sex">Gender</label>
+                        <select name="sex" id="sex" required>
+                            <option value="">Select Gender</option>
+                            {% if form_options and form_options.sex %}
+                            {% for option in form_options.sex %}
+                            <option value="{{ option }}" {{ 'selected' if form_data and form_data.sex==option else ''
+                                }}>{{ option }}</option>
+                            {% endfor %}
+                            {% else %}
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            {% endif %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="occupation">Occupation</label>
+                        <select name="occupation" id="occupation" required>
+                            <option value="">Select Occupation</option>
+                            {% if form_options and form_options.occupation %}
+                            {% for option in form_options.occupation %}
+                            <option value="{{ option }}" {{ 'selected' if form_data and form_data.occupation==option
+                                else '' }}>{{ option }}</option>
+                            {% endfor %}
+                            {% else %}
+                            <option value="Tech-support">Tech-support</option>
+                            <option value="Craft-repair">Craft-repair</option>
+                            <option value="Other-service">Other-service</option>
+                            <option value="Sales">Sales</option>
+                            <option value="Exec-managerial">Exec-managerial</option>
+                            <option value="Prof-specialty">Prof-specialty</option>
+                            <option value="Handlers-cleaners">Handlers-cleaners</option>
+                            <option value="Machine-op-inspct">Machine-op-inspct</option>
+                            <option value="Adm-clerical">Adm-clerical</option>
+                            <option value="Farming-fishing">Farming-fishing</option>
+                            <option value="Transport-moving">Transport-moving</option>
+                            <option value="Priv-house-serv">Priv-house-serv</option>
+                            <option value="Protective-serv">Protective-serv</option>
+                            <option value="Armed-Forces">Armed-Forces</option>
+                            {% endif %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="education">Education</label>
+                        <select name="education" id="education" required>
+                            <option value="">Select Education</option>
+                            {% if form_options and form_options.education %}
+                            {% for option in form_options.education %}
+                            <option value="{{ option }}" {{ 'selected' if form_data and form_data.education==option
+                                else '' }}>{{ option }}</option>
+                            {% endfor %}
+                            {% else %}
+                            <option value="Bachelors">Bachelors</option>
+                            <option value="Some-college">Some-college</option>
+                            <option value="HS-grad">HS-grad</option>
+                            <option value="Masters">Masters</option>
+                            <option value="Doctorate">Doctorate</option>
+                            <option value="Prof-school">Prof-school</option>
+                            <option value="Assoc-acdm">Assoc-acdm</option>
+                            <option value="Assoc-voc">Assoc-voc</option>
+                            {% endif %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="education_num">Education Years</label>
+                        <input type="number" name="education_num" id="education_num" placeholder="13" min="1" max="16"
+                            value="{{ form_data.education_num if form_data else '' }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="native_country">Native Country</label>
+                        <select name="native_country" id="native_country" required>
+                            <option value="">Select Country</option>
+                            {% if form_options and form_options.native_country %}
+                            {% for option in form_options.native_country %}
+                            <option value="{{ option }}" {{ 'selected' if form_data and form_data.native_country==option
+                                else '' }}>{{ option }}</option>
+                            {% endfor %}
+                            {% else %}
+                            <option value="United-States">United-States</option>
+                            <option value="India">India</option>
+                            <option value="Mexico">Mexico</option>
+                            <option value="Philippines">Philippines</option>
+                            <option value="Germany">Germany</option>
+                            <option value="Canada">Canada</option>
+                            <option value="China">China</option>
+                            <option value="England">England</option>
+                            <option value="Japan">Japan</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn">Predict Income</button>
+            </form>
+
+            {% if results is defined and results is not none %}
+            <div class="result show">
+                <p class="result-label">Predicted Income</p>
+                <p class="result-value">{{ results_predicted }}</p>
+                <p class="result-label" style="margin-top: 12px;">Estimated Salary</p>
+                <p class="result-value">${{ "%.2f"|format(estimated_salary) }}</p>
+                <p class="result-label" style="margin-top: 8px; font-size: 0.75rem;">{{ salary_formula }}</p>
+            </div>
+            {% endif %}
+
+            {% if error is defined and error is not none %}
+            <div class="result show" style="background: #3b1818;">
+                <p class="result-label">Prediction Error</p>
+                <p class="result-value" style="font-size: 1rem; color: #ef4444;">{{ error }}</p>
+            </div>
+            {% endif %}
+
+            <div class="console-section">
+                <div class="console-header">
+                    <div class="console-title">
+                        <img src="https://img.icons8.com/ios-filled/50/ffffff/console.png" alt="Console" width="16"
+                            height="16">
+                        Model Logs
+                    </div>
+                    <div class="console-header-controls">
+                        <div class="console-status">
+                            <span class="status-dot"></span>
+                            Live
+                        </div>
+                        <button class="refresh-btn" onclick="fetchLogs()">
+                            <img src="https://img.icons8.com/ios-filled/50/a1a1aa/refresh.png" alt="Refresh" width="12"
+                                height="12">
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+                <div class="console-box" id="consoleBox">
+                    <div class="console-empty">No logs available yet.</div>
+                </div>
+                <p class="console-file" id="logFileName"></p>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-text">Developed By <a href="https://github.com/sadbinsiddique" target="_blank"
+                    rel="noopener noreferrer">Sad Bin Siddique</a></p>
+            <p class="copyright">&copy; 2026 Income Predictor. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function formatLogLine(line) {
+            const timestampMatch = line.match(/\[([\d\-\s:,]+)\]/);
+            const levelMatch = line.match(/- (INFO|WARNING|ERROR|DEBUG) -/i);
+
+            let html = '<div class="log-line">';
+
+            if (timestampMatch) {
+                html += `<span class="log-timestamp">[${timestampMatch[1]}]</span> `;
+            }
+
+            if (levelMatch) {
+                const level = levelMatch[1].toUpperCase();
+                const levelClass = `log-level-${level.toLowerCase()}`;
+                html += `<span class="${levelClass}">${level}</span> `;
+            }
+
+            const messagePart = line.replace(/\[[\d\-\s:,]+\]/, '').replace(/- (INFO|WARNING|ERROR|DEBUG) -/i, '').trim();
+            html += `<span class="log-message">${messagePart}</span>`;
+
+            html += '</div>';
+            return html;
+        }
+
+        async function fetchLogs() {
+            try {
+                const response = await fetch('/api/logs?lines=50');
+                const data = await response.json();
+                const consoleBox = document.getElementById('consoleBox');
+                const logFileName = document.getElementById('logFileName');
+
+                if (data.logs && data.logs.length > 0) {
+                    consoleBox.innerHTML = data.logs.map(formatLogLine).join('');
+                    consoleBox.scrollTop = consoleBox.scrollHeight;
+
+                    if (data.file) {
+                        logFileName.textContent = `📄 ${data.file}`;
+                    }
+                } else {
+                    consoleBox.innerHTML = '<div class="console-empty">No logs available yet. Make a prediction to see logs.</div>';
+                    logFileName.textContent = '';
+                }
+            } catch (error) {
+                console.error('Error fetching logs:', error);
+                document.getElementById('consoleBox').innerHTML =
+                    '<div class="console-empty">Unable to fetch logs. Server may be offline.</div>';
+            }
+        }
+
+        fetchLogs();
+
+        setInterval(fetchLogs, 1000);
+    </script>
+</body>
+
+</html>

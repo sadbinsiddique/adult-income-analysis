@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Income Predictor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background: #09090b;
+            --foreground: #fafafa;
+            --card: #0a0a0c;
+            --card-foreground: #fafafa;
+            --primary: #7c3aed;
+            --primary-foreground: #fafafa;
+            --secondary: #27272a;
+            --secondary-foreground: #fafafa;
+            --muted: #27272a;
+            --muted-foreground: #a1a1aa;
+            --border: #27272a;
+            --ring: #7c3aed;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: var(--background);
+            font-family: "Inter", sans-serif;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 32px;
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--foreground);
+            text-decoration: none;
+        }
+
+        .nav-brand img {
+            width: 28px;
+            height: 28px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link {
+            color: var(--muted-foreground);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--foreground);
+            background: var(--secondary);
+        }
+
+        .nav-link.active {
+            color: var(--foreground);
+            background: var(--secondary);
+        }
+
+        .nav-btn {
+            background: var(--primary);
+            color: var(--primary-foreground);
+            padding: 8px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            margin-left: 8px;
+        }
+
+        .nav-btn:hover {
+            background: #6d28d9;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 48px 56px;
+            max-width: 520px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--secondary);
+            border-radius: 12px;
+        }
+
+        .icon svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--foreground);
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--foreground);
+            line-height: 1.2;
+            margin-bottom: 16px;
+            letter-spacing: -0.025em;
+        }
+
+        .subtitle {
+            color: var(--primary);
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .description {
+            color: var(--muted-foreground);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 28px;
+            max-width: 360px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .badges {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border: 1px solid var(--border);
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--muted-foreground);
+            background: var(--secondary);
+            transition: all 0.2s;
+        }
+
+        .badge:hover {
+            border-color: var(--muted-foreground);
+            color: var(--foreground);
+        }
+
+        .badge svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            padding: 12px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #6d28d9;
+            box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--ring);
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 12px 16px;
+            }
+
+            .nav-links {
+                gap: 4px;
+            }
+
+            .nav-link {
+                padding: 6px 10px;
+                font-size: 0.8rem;
+            }
+
+            .nav-btn {
+                padding: 6px 14px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .navbar {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .nav-brand {
+                font-size: 1rem;
+            }
+
+            .nav-brand img {
+                width: 24px;
+                height: 24px;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .nav-link:not(.active) {
+                display: none;
+            }
+
+            .nav-link.active,
+            .nav-btn {
+                display: inline-block;
+            }
+
+            .main-content {
+                padding: 16px;
+            }
+
+            .card {
+                padding: 28px 20px;
+                border-radius: 12px;
+            }
+
+            .icon {
+                width: 44px;
+                height: 44px;
+                margin-bottom: 16px;
+            }
+
+            .title {
+                font-size: 1.75rem;
+                margin-bottom: 12px;
+            }
+
+            .subtitle {
+                font-size: 0.75rem;
+            }
+
+            .description {
+                font-size: 0.875rem;
+                margin-bottom: 24px;
+                padding: 0 8px;
+            }
+
+            .badges {
+                gap: 8px;
+                margin-bottom: 24px;
+            }
+
+            .badge {
+                padding: 6px 12px;
+                font-size: 0.75rem;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 14px 24px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .card {
+                padding: 24px 16px;
+            }
+
+            .title {
+                font-size: 1.5rem;
+            }
+
+            .badges {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .badge {
+                justify-content: center;
+            }
+        }
+
+        .footer {
+            padding: 20px 32px;
+            background: var(--card);
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-text {
+            font-size: 0.8rem;
+            color: var(--muted-foreground);
+        }
+
+        .footer-text a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-text a:hover {
+            text-decoration: underline;
+        }
+
+        .copyright {
+            font-size: 0.75rem;
+            color: var(--muted-foreground);
+            opacity: 0.6;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="/" class="nav-brand">
+            <img src="https://img.icons8.com/ios-filled/50/7c3aed/artificial-intelligence.png" alt="Logo">
+            Income Predictor
+        </a>
+        <div class="nav-links">
+            <a href="/" class="nav-link active">Home</a>
+            <a href="/predictdata" class="nav-link">Predict</a>
+            <a href="/about" class="nav-link">About</a>
+            <a href="/contact" class="nav-link">Contact</a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="card">
+            <div class="icon">
+                <img src="https://img.icons8.com/ios-filled/50/7c3aed/artificial-intelligence.png" alt="Income"
+                    width="24" height="24">
+            </div>
+
+            <p class="subtitle">AI-Powered Income Analysis</p>
+
+            <h1 class="title">Income Predictor</h1>
+
+            <p class="description">
+                Leverage advanced machine learning to predict personal income based on various factors.
+            </p>
+
+            <div class="badges">
+                <span class="badge">
+                    <img src="https://img.icons8.com/ios-filled/50/a1a1aa/artificial-intelligence.png" alt="AI"
+                        width="14" height="14">
+                    LinearSVC Model
+                </span>
+                <span class="badge">
+                    <img src="https://img.icons8.com/ios-filled/50/a1a1aa/combo-chart.png" alt="Accuracy" width="14"
+                        height="14">
+                    85%+ Accurate
+                </span>
+                <span class="badge">
+                    <img src="https://img.icons8.com/ios-filled/50/a1a1aa/shield.png" alt="Privacy" width="14"
+                        height="14">
+                    Data Privacy
+                </span>
+            </div>
+
+            <a href="/predictdata" class="btn">Get Started</a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-text">Developed By <a href="https://github.com/sadbinsiddique" target="_blank"
+                    rel="noopener noreferrer">Sad Bin
+                    Siddique</a></p>
+            <p class="copyright">&copy; 2025 Income Predictor. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>
