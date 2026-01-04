@@ -23,7 +23,7 @@ The project uses **Support Vector Machine**, provides **comprehensive data visua
 2) Apply appropriate data cleaning techniques to your dataset using the Pandas library. Replace bad data using suitable methods; do not delete any records except for duplicates.
 3) Analyze the `frequency distributions` of the dataset’s features by generating plots with Matplotlib. Use the `plt.subplots()` method to display all charts within a single figure.
 4) Perform scaling on the features of the dataset. You will need to apply data conversion before scaling if required.
-5) Split your dataset into training and testing subsets using the `train_test_split()` function and set the random_state parameter to `**3327**`.
+5) Split your dataset into training and testing subsets using the `train_test_split()` function and set the random_state parameter to `3327`.
 6) Apply Support Vector Machine `SVM` Classifier to the dataset. Build `train` your prediction model in this step.
 7) Compute the confusion matrix for the SVM model. Provide an in-depth discussion in your report.
 8) Calculate and compare the training accuracy and test accuracy of your model.
@@ -66,3 +66,4 @@ uv pip install -r requirements.txt --link-mode=copy
 ```cmd
 python app.py
 ```
+
