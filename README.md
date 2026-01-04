@@ -1,4 +1,4 @@
-# `End-to-End` ML Project **_Income Prediction_**
+# Income Prediction
 
 [![Python](https://img.shields.io/badge/Python-%203.10%20%7C%203.11-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![UV](https://img.shields.io/badge/uv-0.9.21-3776AB?logo=uv&logoColor=white)](https://www.python.org/)
@@ -66,4 +66,5 @@ uv pip install -r requirements.txt --link-mode=copy
 ```cmd
 python app.py
 ```
+
 
